@@ -31,7 +31,7 @@ class SubjectUnderTestTest {
     @Nested
     class Imported {
         @Test
-        void should_add_vat_and_imported_taxe_for_expensive_good() {
+        void should_add_taxe_for_expensive_good_costing_1000() {
             var subjectUnderTest = new SubjectUnderTest();
 
             var result = subjectUnderTest.execute(1000, 5.0f, true);
@@ -40,31 +40,48 @@ class SubjectUnderTestTest {
         }
 
         @Test
-        void should_add_vat_and_imported_taxe_for_cheap_good() {
+        void should_add_high_odd_taxe() {
             var subjectUnderTest = new SubjectUnderTest();
 
-            var result = subjectUnderTest.execute(10, 15.0f, true);
+            var result = subjectUnderTest.execute(10, 5.0f, true);
 
-            assertThat(result).isEqualTo(11.73f);
+            assertThat(result).isEqualTo(10.71f);
         }
 
         @Test
-        void should_add_vat_and_imported_low_taxe_for_cheap_good() {
+        void should_add_high_even_taxe() {
             var subjectUnderTest = new SubjectUnderTest();
 
-            var result = subjectUnderTest.execute(10, 1.0f, true);
+            var result = subjectUnderTest.execute(10, 6.0f, true);
 
-            assertThat(result).isEqualTo(10.605f);
+            assertThat(result).isEqualTo(11.129999f);
         }
 
         @Test
-        void should_not_add_vat_when_vat_is_null() {
+        void should_add_low_odd_taxe() {
             var subjectUnderTest = new SubjectUnderTest();
 
-            var result = subjectUnderTest.execute(10, null, true);
+            var result = subjectUnderTest.execute(10, 3.0f, true);
 
-            assertThat(result).isEqualTo(10f);
+            assertThat(result).isEqualTo(10.814999f);
         }
 
+        @Test
+        void should_add_low_even_taxe() {
+            var subjectUnderTest = new SubjectUnderTest();
+
+            var result = subjectUnderTest.execute(10, 4.0f, true);
+
+            assertThat(result).isEqualTo(10.919999f);
+        }
+    }
+
+    @Test
+    void should_not_add_vat_when_vat_is_null() {
+        var subjectUnderTest = new SubjectUnderTest();
+
+        var result = subjectUnderTest.execute(10, null, true);
+
+        assertThat(result).isEqualTo(10f);
     }
 }
