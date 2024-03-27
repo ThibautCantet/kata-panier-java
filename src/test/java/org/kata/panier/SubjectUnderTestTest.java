@@ -10,22 +10,41 @@ class SubjectUnderTestTest {
     @Nested
     class NotImported {
         @Test
-        void should_add_vat() {
+        void should_add_minored_taxe_when_odd_ht_and_high_taxe() {
             var subjectUnderTest = new SubjectUnderTest();
 
-            var result = subjectUnderTest.execute(10, 5.0f, false);
+            var result = subjectUnderTest.execute(11, 11.0f, false);
 
-            assertThat(result).isEqualTo(10.5f);
+            assertThat(result).isEqualTo(11.990001f);
         }
 
         @Test
-        void should_add_vat_and_taxe_for_expensive_good() {
+        void should_add_taxe_when_even_ht_and_high_taxe() {
             var subjectUnderTest = new SubjectUnderTest();
 
-            var result = subjectUnderTest.execute(1001, 15.0f, false);
+            var result = subjectUnderTest.execute(10, 11.0f, false);
 
-            assertThat(result).isEqualTo(1131.13f);
+            assertThat(result).isEqualTo(11.1f);
         }
+
+        @Test
+        void should_add_taxe_when_odd_ht_and_low_taxe() {
+            var subjectUnderTest = new SubjectUnderTest();
+
+            var result = subjectUnderTest.execute(11, 10.0f, false);
+
+            assertThat(result).isEqualTo(12.1f);
+        }
+
+        @Test
+        void should_add_taxe_when_even_ht_and_low_taxe() {
+            var subjectUnderTest = new SubjectUnderTest();
+
+            var result = subjectUnderTest.execute(10, 9.0f, false);
+
+            assertThat(result).isEqualTo(10.900001f);
+        }
+
     }
 
     @Nested
